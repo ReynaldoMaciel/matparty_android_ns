@@ -32,32 +32,61 @@
         blur="onBlur" 
         class="input input-border"/>
       <Button text="Registrar" @tap="registerUser" class="btn btn-primary btn-active" />
-      <Button text="Logar" tap="onTap" class="btn btn-primary btn-active" />
-      <Button text="Get Users" tap="onTap" class="btn btn-primary btn-active" />
+      <Button text="Logar" @tap="getToken" class="btn btn-primary btn-active" />
+      <Button text="Get Users" @tap="getUsers" class="btn btn-primary btn-active" />
     </FlexboxLayout>
   </Page>
 </template>
 
 <script>
-  var dialog =  require("ui/dialogs")
+  const axios = require('axios');
 
   export default {
     name: 'HelloWord',
     data () {
       return {
         username: 'Higor',
-        email: 'hfn@gmail.com',
-        password: 'abc123'
+        email: 'hfn123@gmail.com',
+        password: 'abc123',
+        token: 'teste'
       };
     },
-    method: {
-      registerUser() {
-        console.log('teste');  
-        alert('Your message')
-        .then(() => {
-          console.log("Alert dialog closed.");
-        });
-        
+    methods: {
+      registerUser() {       
+        axios.post('https://matparty-api-only.herokuapp.com/register', {
+          username: this.username,
+          email: this.email,
+          password: this.password
+        })
+        .then(function (response) {
+          alert("registrado");
+        })
+        .catch(function (error) {
+          alert(error.message);
+        })
+      },
+      getToken(){
+        axios.post('https://matparty-api-only.herokuapp.com/authenticate', {
+          email: this.email,
+          password: this.password
+        })
+        .then((response) => {
+          this.token = response.data["token"]
+        })
+        .catch(function (error) {
+          alert(error.message);
+        })
+      },
+      getUsers(){
+        axios.get('https://matparty-api-only.herokuapp.com/users', {
+          headers: {'Authorization':'Bearer ' + this.token }
+        })
+        .then(function (response) {
+          alert(response.data.message);
+        })
+        .catch(function (error) {
+          alert(error);
+        })
       }
     },
   };
