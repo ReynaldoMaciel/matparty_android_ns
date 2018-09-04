@@ -1,14 +1,16 @@
 import Vue from 'nativescript-vue';
 
-import HelloWorld from './components/HelloWorld';
+import RegisterUser from './components/RegisterUser';
 
+import store from "./store";
 
 import './styles.scss';
 
 Vue.config.silent = false;
 new Vue({
 
-  render: h => h(HelloWorld),
-
+  render: h => h(RegisterUser),
+  //render: h => h(Todo),
+  store
 
 }).$start();

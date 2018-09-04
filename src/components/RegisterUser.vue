@@ -34,6 +34,8 @@
       <Button text="Registrar" @tap="registerUser" class="btn btn-primary btn-active" />
       <Button text="Logar" @tap="getToken" class="btn btn-primary btn-active" />
       <Button text="Get Users" @tap="getUsers" class="btn btn-primary btn-active" />
+      <Button text="Logout" @tap="logout" class="btn btn-danger btn-active" />
+      <Label> {{ token }}</Label>
     </FlexboxLayout>
   </Page>
 </template>
@@ -72,6 +74,7 @@
         })
         .then((response) => {
           this.token = response.data["token"]
+          alert("Logado com sucesso")
         })
         .catch(function (error) {
           alert(error.message);
@@ -87,6 +90,9 @@
         .catch(function (error) {
           alert(error);
         })
+      },
+      logout(){
+        this.token = ''
       }
     },
   };
